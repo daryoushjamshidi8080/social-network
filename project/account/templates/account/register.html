@@ -7,11 +7,17 @@
 
 
 {% block content %}
+
+
     <div class=" d-flex justify-content-center align-items-center">
-        <form action="" method="post" class="col-md-5">
+        <form action="" novalidate method="post" class="col-md-5">
+            {% for error in form.errors %}
+                <small class="text-danger d-block" >{{ error }}</small>
+            {% endfor %}
             {% csrf_token %}
+            <h4 class="mb-3 text-center">Register</h4>
             {{ form.as_p }}
-            <input type="submit" class="btn btn-primary" value="Register">
+            <input type="submit" class="btn btn-primary w-100" value="Register">
         </form>
     </div>
     
