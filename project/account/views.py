@@ -3,6 +3,8 @@ from django.views import View
 from .forms import UserRegistrationForm, UserLoginForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import ValidationError
 
 
 class UserRegisterView(View):
@@ -38,4 +40,19 @@ class UserLoginView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        pass
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            cd = form.cleaned_data
+
+            user = authenticate(
+                username=cd['username'], password=cd['password'])
+            if user is not None:
+                login(request, user)
+
+                messages.success(request, 'Your successfully login', 'success')
+                return redirect('home:home')
+            else:
+                messages.error(
+                    request, 'Username or Password is wrong', 'danger')
+        return render(request, 'account/login.html', {'form': form})
