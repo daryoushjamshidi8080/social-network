@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    login
+{% endblock %}
+
+
+{% block content %}
+    <div class="d-flex">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form }}
+
+            <input type="submit" value="Login">
+        </form>
+    </div>
+{% endblock %}

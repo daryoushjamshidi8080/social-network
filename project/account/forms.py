@@ -41,3 +41,9 @@ class UserRegistrationForm(forms.Form):
 
         if password and confirm_password and password != confirm_password:
             self.add_error('confirm_password', 'Password must match')
+
+
+class UserLoginForm(forms.Form):
+
+    username = forms.CharField()
+    password = forms.CharField()
