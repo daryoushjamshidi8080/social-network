@@ -12,13 +12,15 @@
             
             <h4 class="mb-4 text-center">Login Form</h4>
             {% if form.errors %}
-                {% for field, errors in form.errors.items %}
-                    {% for error in form.errors %}
-                        <ul>
-                            <li><strong>{{ field|capfirst }}</strong>{{ msg }}</li>
-                        </ul>
-                    {% endfor %}
-                {% endfor %}
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li><strong>{{ field|capfirst }}:</strong> {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endif %}
             <div class="mb-3">
                 {{ form.username.label_tag }}
