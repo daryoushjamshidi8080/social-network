@@ -25,6 +25,10 @@ class UserRegisterView(View):
             cd = form.cleaned_data
             User.objects.create_user(
                 cd['username'], cd['email'], cd['password'])
+
+            user = authenticate(
+                username=cd['username'], password=cd['password'])
+            login(request, user)
             messages.success(request, 'You registered successfully', 'success')
 
             return redirect('home:home')
@@ -56,3 +60,10 @@ class UserLoginView(View):
                 messages.error(
                     request, 'Username or Password is wrong', 'danger')
         return render(request, 'account/login.html', {'form': form})
+
+
+class UserLogoutView(View):
+    def get(self, request):
+        logout(request)
+        messages.success(request, 'Your logged out successfully', 'success')
+        return redirect('home:home')
