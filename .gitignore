@@ -1,3 +1,6 @@
 #env file
 .env 
 env/
+
+#database file
+/project/db.sqlite3
