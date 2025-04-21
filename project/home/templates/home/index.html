@@ -2,5 +2,11 @@
 
 
 {% block content %}
-    <p>hello </p>
+    <h2>Index Page</h2>
+
+    <div class="card">
+        {% for post in posts %}
+            <a href="" class="card-body"> {{ post.body|truncatewords:5 }} </a>
+        {% endfor %}
+    </div>
 {% endblock %}
