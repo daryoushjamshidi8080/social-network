@@ -8,4 +8,19 @@
 
     <h3 class="text-center">{{ user.username }}</h3>
 
+    <div class="card">
+        {% if posts|length == 0 %}
+            <b class="text-center">You have no post</b>
+        {% else %}
+            {% for post in posts %}
+                <a href="{% url 'home:post_detail' post.id post.slug %}" class="card-body">
+                    {{ post.body|truncatewords:5 }}
+                </a>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <a href="" class="btn btn-primary">Create Post</a>
+    </div>
+        
 {% endblock %}

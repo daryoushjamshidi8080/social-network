@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ValidationError
 from django.contrib.auth.mixins import LoginRequiredMixin
+from post.models import Post
 
 
 class UserRegisterView(View):
@@ -78,7 +79,5 @@ class UserLogoutView(LoginRequiredMixin, View):
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, user_id):
         user = User.objects.get(pk=user_id)
-        return render(request, 'account/profile.html', {'user': user})
-
-    def post(self, request):
-        pass
+        posts = Post.objects.filter(user_id=user_id)
+        return render(request, 'account/profile.html', {'user': user, 'posts': posts})
