@@ -5,5 +5,5 @@ from . import views
 app_name = 'post'
 
 urlpatterns = [
-    path('', views.post)
+    path('delete/<int:post_id>/', views.PostDeleteView.as_view(), name='post_delete')
 ]
