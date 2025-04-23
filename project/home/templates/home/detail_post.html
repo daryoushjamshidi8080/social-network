@@ -7,7 +7,12 @@
 
 
 {% block content %}
-
+    {% if request.user.id == post.user.id %}
+        <div class="mb-3 d-flex">
+            <a href="" class="btn btn-danger me-2">Delete</a>
+            <a href="" class="btn btn-primary">Edit</a>
+        </div>
+    {% endif %}
     <p><a href="{% url 'account:user_profile' post.user.id %}"> {{ post.user.username }}</a> " {{ post.update|date:"Y M d" }} "</p>
     <p>{{ post.body }}</p>
 
