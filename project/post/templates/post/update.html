@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Post Edit
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div class="d-flex" >
+        <form action="" novalidate method="post" class="col-md-3">
+            {% csrf_token %}
+
+
+            <div class="mb-3">
+                {{ form.slug.label }}
+                :
+                {{ form.slug }}
+            </div>
+            <div class="mb-3">
+                {{ form.body.label }}
+                :
+                {{ form.body }}
+            </div>
+            <input type="submit" value="Update" class="btn btn-primary w-100">
+        </form>
+    </div>
+
+{% endblock %}
