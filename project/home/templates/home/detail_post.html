@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    <p>{{ post.user.username }} " {{ post.update|date:"Y M d" }} "</p>
+    <p><a href="{% url 'account:user_profile' post.user.id %}"> {{ post.user.username }}</a> " {{ post.update|date:"Y M d" }} "</p>
     <p>{{ post.body }}</p>
 
 {% endblock %}
