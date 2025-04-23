@@ -6,6 +6,7 @@ from django.contrib import messages
 # Create your views here.
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .froms import PostUpdateForm
+from django.utils.text import slugify
 
 
 def post(request):
@@ -48,6 +49,8 @@ class PostUpdateView(LoginRequiredMixin, View):
         form = self.form_class(request.POST, instance=post)
 
         if form.is_valid():
-            form.save()
+            new_post = form.save(commit=False)
+            new_post.slug = slugify(form.cleaned_data['body'][:30])
+            new_post.save()
             messages.success(request, 'you update this post', 'success')
             return redirect('home:post_detail', post.id, post.slug)

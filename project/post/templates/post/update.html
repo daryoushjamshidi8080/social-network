@@ -12,12 +12,6 @@ Post Edit
         <form action="" novalidate method="post" class="col-md-3">
             {% csrf_token %}
 
-
-            <div class="mb-3">
-                {{ form.slug.label }}
-                :
-                {{ form.slug }}
-            </div>
             <div class="mb-3">
                 {{ form.body.label }}
                 :
