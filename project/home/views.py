@@ -13,4 +13,4 @@ class PostDetailView(View):
     def get(self, request, post_id, post_slug):
         post = Post.objects.get(pk=post_id, slug=post_slug)
 
-        return render(request, 'home/detail_post.html', {'post': post})
+        return render(request, 'post/detail_post.html', {'post': post})
