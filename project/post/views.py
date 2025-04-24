@@ -28,6 +28,10 @@ class PostDeleteView(LoginRequiredMixin, View):
 class PostUpdateView(LoginRequiredMixin, View):
     form_class = PostUpdateForm
 
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.post_instance = Post.objects.get(pk=kwargs['post_id'])
+
     def dispatch(self, request, *args, **kwargs):
         post = Post.objects.get(pk=kwargs['post_id'])
 
@@ -37,13 +41,13 @@ class PostUpdateView(LoginRequiredMixin, View):
 
         return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request, post_id):
-        post = Post.objects.get(pk=post_id)
+    def get(self, request, *args, **kwargs):
+        post = self.post_instance
         form = self.form_class(instance=post)
         return render(request, 'post/update.html', {'form': form})
 
-    def post(self, request, post_id):
-        post = Post.objects.get(pk=post_id)
+    def post(self, request, *args, **kwargs):
+        post = self.post_instance
 
         # get new form of user
         form = self.form_class(request.POST, instance=post)
