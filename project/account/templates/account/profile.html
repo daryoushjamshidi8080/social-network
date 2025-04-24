@@ -21,7 +21,7 @@
     </div>
     {% if request.user.id == user_id %}
         <div class="d-flex justify-content-center mt-3">
-            <a href="" class="btn btn-primary">Create Post</a>
+            <a href="{% url 'post:post_create' %}" class="btn btn-primary">Create Post</a>
         </div>
    {% endif %}
         

@@ -9,3 +9,15 @@ class PostUpdateForm(forms.ModelForm):
         widgets = {
             'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Enter post body'}),
         }
+
+
+class PostCreateForm(forms.Form):
+    body = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Enter post body'
+            }
+        )
+    )

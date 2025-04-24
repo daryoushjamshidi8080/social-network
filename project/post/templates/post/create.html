@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    create post
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div class="d-flex">
+        <form action="" method="post" class="col-md-3">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                {{ form.body.label }}
+                :
+                {{ form.body }}
+            </div>
+            <input type="submit" class="btn btn-primary w-100" value="Create">
+        </form>
+    </div>
+
+{% endblock %}

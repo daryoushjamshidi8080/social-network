@@ -5,12 +5,8 @@ from .models import Post
 from django.contrib import messages
 # Create your views here.
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .froms import PostUpdateForm
+from .froms import PostUpdateForm, PostCreateForm
 from django.utils.text import slugify
-
-
-def post(request):
-    return HttpResponse('hiii')
 
 
 class PostDeleteView(LoginRequiredMixin, View):
@@ -58,3 +54,24 @@ class PostUpdateView(LoginRequiredMixin, View):
             new_post.save()
             messages.success(request, 'you update this post', 'success')
             return redirect('home:post_detail', post.id, post.slug)
+
+
+class PostCreateView(LoginRequiredMixin, View):
+    form_class = PostCreateForm
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, 'post/create.html', {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            body = form.cleaned_data['body']
+            new_post = Post.objects.create(
+                body=body,
+                slug=slugify(body[:30]),
+                user=request.user
+            )
+            messages.success(request, 'You created this post', 'success')
+            return redirect('home:post_detail', new_post.id, new_post.slug)
