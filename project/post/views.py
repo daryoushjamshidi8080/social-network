@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
 from .models import Post
@@ -11,7 +11,7 @@ from django.utils.text import slugify
 
 class PostDeleteView(LoginRequiredMixin, View):
     def get(self, request, post_id):
-        post = Post.objects.get(pk=post_id)
+        post = get_object_or_404(Post, pk=post_id)
         if post.user.id == request.user.id:
             post.delete()
             messages.success(request, 'Post Deleted successfully', 'success')
@@ -26,7 +26,7 @@ class PostUpdateView(LoginRequiredMixin, View):
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.post_instance = Post.objects.get(pk=kwargs['post_id'])
+        self.post_instance = get_object_or_404(Post, pk=kwargs['post_id'])
 
     def dispatch(self, request, *args, **kwargs):
         post = Post.objects.get(pk=kwargs['post_id'])

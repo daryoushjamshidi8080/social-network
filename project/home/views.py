@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from post.models import Post
 
@@ -11,6 +11,6 @@ class HomeView(View):
 
 class PostDetailView(View):
     def get(self, request, post_id, post_slug):
-        post = Post.objects.get(pk=post_id, slug=post_slug)
+        post = get_object_or_404(Post, pk=post_id, slug=post_slug)
 
         return render(request, 'post/detail_post.html', {'post': post})
