@@ -5,6 +5,11 @@
 {% endblock %}
 {% block content %}
 
+    {% if request.user.id != user_id and not is_following %}
+        <a href="{% url 'account:user_follow' user.id %}" class="btn btn-primary">follow</a>
+    {% elif request.user.id != user_id and is_following %}
+        <a href="{% url 'account:user_unfollow' user.id %}" class="btn btn-danger">unfollow</a> 
+    {% endif %}
 
     <h3 class="text-center">{{ user.username }}</h3>
 
