@@ -111,8 +111,9 @@ class UserPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
 
 
 class UserFollowView(LoginRequiredMixin, View):
-    def get(request, user_id):
+    def get(self, request, user_id):
         user = User.objects.get(id=user_id)
+
         relation = Relation.objects.filter(
             from_user=request.user.id, to_user=user.id)
 
@@ -127,7 +128,7 @@ class UserFollowView(LoginRequiredMixin, View):
 
 
 class UserUnfollowView(LoginRequiredMixin, View):
-    def get(request, user_id):
+    def get(self, request, user_id):
         user = User.objects.get(pk=user_id)
 
         relation = Relation.objects.filter(
