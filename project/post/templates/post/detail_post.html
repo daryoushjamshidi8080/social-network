@@ -42,8 +42,34 @@
         {% endif %}
         {% for comment in comments %}
 
-            <p class="card-header">{{ comment.user }}   |  {{ comment.created|timesince }}</p>
-            <p class="card-body">{{ comment.body }}</p>
+            <div class="mb-2 bg-light text-dark">
+
+                <p class="card-header"> name : {{ comment.user }} | {{ comment.created|timesince }}</p>
+                <p class="card-body">{{ comment.body }}</p>
+
+                {% if request.user.is_authenticated %}
+                    <div class="d-flex justify-content-center item-center w-100">
+                        <form action="{% url 'home:add_reply' post.id comment.id %}" method="post" >
+                            {% csrf_token %}
+                            {{ reply_form.body }}
+                            <input type="submit" value="Send">
+                        </form>
+                    </div>
+                {% endif %}
+
+                {% with comment.rcomments.all as replies %}
+                    {% for reply in replies %}
+                    
+                        <div class="bg-primary p-3 m-2">
+                            <p> name : {{ reply.user }} | {{ reply.created|timesince }}</p>
+                            <p>{{ reply.body }} </p>
+                        </div>
+                    
+                    {% endfor %}
+
+                {% endwith %}
+                
+            </div>
 
         {% empty %}
             <p class="text-center">No comment</p>

@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from post.models import Post
-from post.froms import CommentCreateFrom
+from post.models import Post, Comment
+from post.froms import CommentCreateFrom, CommentReplyForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomeView(View):
@@ -15,6 +16,7 @@ class HomeView(View):
 
 class PostDetailView(View):
     form_class = CommentCreateFrom
+    form_class_reply = CommentReplyForm
 
     def setup(self, request, *args, **kwargs):
         self.post_instance = get_object_or_404(
@@ -27,7 +29,7 @@ class PostDetailView(View):
 
         comments = self.post_instance.pcomments.filter(is_reply=False)
 
-        return render(request, 'post/detail_post.html', {'post': self.post_instance, 'comments': comments, 'form': form})
+        return render(request, 'post/detail_post.html', {'post': self.post_instance, 'comments': comments, 'form': form, 'reply_form': self.form_class_reply()})
 
     @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
@@ -41,3 +43,26 @@ class PostDetailView(View):
             messages.success(
                 request, 'Your comment submitted successfully', 'success')
             return redirect('home:post_detail', self.post_instance.id, self.post_instance.slug)
+
+
+class PostAddReplyView(LoginRequiredMixin, View):
+    from_class = CommentReplyForm
+
+    def post(self, request, post_id, comment_id):
+        post = get_object_or_404(Post, id=post_id)
+        comment = get_object_or_404(Comment, id=comment_id)
+
+        form = self.from_class(request.POST)
+
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.user = request.user
+            reply.post = post
+            reply.reply = comment
+            reply.is_reply = True
+            reply.save()
+
+            messages.success(
+                request, 'Your reply submitted successfully', 'success')
+
+        return redirect('home:post_detail', post.id, post.slug)
