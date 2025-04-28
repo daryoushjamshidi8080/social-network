@@ -3,6 +3,8 @@ from django.views import View
 from post.models import Post
 from post.froms import CommentCreateFrom
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 class HomeView(View):
@@ -27,6 +29,7 @@ class PostDetailView(View):
 
         return render(request, 'post/detail_post.html', {'post': self.post_instance, 'comments': comments, 'form': form})
 
+    @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
 
