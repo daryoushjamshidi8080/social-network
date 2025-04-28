@@ -35,4 +35,4 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user}  - {self.body[:30]} - post {self.post}'
+        return f'{self.user}  - {self.body[:30]} - post {self.post.slug[:10]}'

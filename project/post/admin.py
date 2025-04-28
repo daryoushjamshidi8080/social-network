@@ -13,7 +13,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'post', 'reply', 'body', 'is_reply')
+    list_display = ('user', 'post', 'reply', 'body')
     search_fields = ('body', )
     list_filter = ('created', )
     raw_id_fields = ('user', 'post', 'reply')
