@@ -19,10 +19,19 @@
 
 
     {% if request.user.is_authenticated %}
-        <form action="" method="post">
+        <form action="" novalidate method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Send">
+
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <h5 class="alert alert-danger">{{ error }}</h5>
+                {% endfor %}
+            {% endfor %}
+            <div class="mb-2">
+                <h6>comment:</h6>
+                {{ form.body }}
+            </div>
+            <input type="submit" class="btn btn-primary" value="Send">
         </form>
     {% else %}
         <p class="alert alert-danger">only logged in users can comment.</p>
