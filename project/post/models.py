@@ -36,3 +36,13 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.user}  - {self.body[:30]} - post {self.post.slug[:10]}'
+
+
+class Vote(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='uvotes')
+    post = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='pvotes')
+
+    def __str__(self):
+        return f'{self.user} - linked {self.post.slug}'
