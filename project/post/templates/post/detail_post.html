@@ -19,6 +19,7 @@
 
 
     {% if request.user.is_authenticated %}
+        <a class="{% if can_like %} disabled {% endif %} btn btn-primary col-md-2" href="{% url 'post:post_like' post.id %}">Like {{ post.likes_count }}</a>
         <form action="" novalidate method="post">
             {% csrf_token %}
 

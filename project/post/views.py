@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
-from .models import Post
+from .models import Post, Vote
 from django.contrib import messages
 # Create your views here.
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -75,3 +75,19 @@ class PostCreateView(LoginRequiredMixin, View):
             )
             messages.success(request, 'You created this post', 'success')
             return redirect('home:post_detail', new_post.id, new_post.slug)
+
+
+class PostLikeView(LoginRequiredMixin, View):
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        link = Vote.objects.filter(user=request.user, post=post)
+
+        if link.exists():
+            messages.error(
+                request, 'You have already linked this post', 'danger')
+
+        else:
+            Vote.objects.create(post=post, user=request.user)
+            messages.success(request, 'You liked this post', 'success')
+
+        return redirect('home:post_detail', post.id, post.slug)

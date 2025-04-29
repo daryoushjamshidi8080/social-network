@@ -25,11 +25,14 @@ class PostDetailView(View):
         return super().setup(request, *args, **kwargs)
 
     def get(self, request, post_id, post_slug):
-        form = self.form_class()
 
+        can_like = False
+        if request.user.is_authenticated and self.post_instance.user_can_like(request.user):
+            can_like = True
+        form = self.form_class()
         comments = self.post_instance.pcomments.filter(is_reply=False)
 
-        return render(request, 'post/detail_post.html', {'post': self.post_instance, 'comments': comments, 'form': form, 'reply_form': self.form_class_reply()})
+        return render(request, 'post/detail_post.html', {'post': self.post_instance, 'comments': comments, 'form': form, 'reply_form': self.form_class_reply(), 'can_like': can_like})
 
     @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
