@@ -4,6 +4,14 @@
     profile
 {% endblock %}
 {% block content %}
+    {% if request.user.id == user_id %}
+        <div class="d-flex justify-content-center mt-3">
+            <a href="{% url 'post:post_create' %}" class="btn btn-primary">Create Post</a>
+            <a href="{% url 'post:edite_user' %}" class="btn btn-primary">Edite Profile</a>
+        
+        </div>
+    
+    {% endif %}
 
     {% if request.user.id != user_id and not is_following %}
         <a href="{% url 'account:user_follow' user.id %}" class="btn btn-primary">follow</a>
@@ -24,11 +32,7 @@
             {% endfor %}
         {% endif %}
     </div>
-    {% if request.user.id == user_id %}
-        <div class="d-flex justify-content-center mt-3">
-            <a href="{% url 'post:post_create' %}" class="btn btn-primary">Create Post</a>
-        </div>
-   {% endif %}
+    
         
         
 {% endblock %}

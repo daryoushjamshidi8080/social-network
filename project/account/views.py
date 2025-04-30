@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, EditeUserForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -149,3 +149,15 @@ class UserUnfollowView(LoginRequiredMixin, View):
                 request, 'you are already unfollow this user', 'danger')
 
         return redirect('account:user_profile', user.id)
+
+
+class EditeUserView(LoginRequiredMixin, View):
+    form_class = EditeUserForm
+
+    def get(self, request):
+        form = self.form_class()
+
+        return render(request, 'account/edite_profile.html', {'form': form})
+
+    def post(self, request):
+        pass
