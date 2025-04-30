@@ -3,7 +3,14 @@
 
 {% block content %}
     <h2>Index Page</h2>
-
+    <div class="d-flex">
+        <form action="" class="d-flex w-100" >
+            <div class="form-group me-2 mb-0 flex-grow-1">
+                {{ form.as_p }}
+            </div>
+            <input type="submit" class="btn btn-primary" value="Search">
+        </form>
+    </div>
     <div class="card">
         {% for post in posts %}
             <a href="{{ post.get_absolute_url }}" class="card-body">
