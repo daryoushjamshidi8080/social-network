@@ -54,9 +54,19 @@ class UserLoginForm(forms.Form):
 
 class EditeUserForm(forms.ModelForm):
     email = forms.EmailField()
-    password = forms.CharField()
-    confirm_password = forms.CharField()
+    password = forms.CharField(required=False, widget=forms.PasswordInput)
+    confirm_password = forms.CharField(
+        required=False, widget=forms.PasswordInput)
 
     class Meta:
         model = Profile
         fields = ('age', 'bio')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        comfirm_password = cleaned_data.get('confirm_password')
+
+        if comfirm_password != password:
+            raise forms.ValidationError("Passwords do not match.")
+        return cleaned_data

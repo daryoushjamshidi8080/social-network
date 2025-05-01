@@ -7,8 +7,11 @@
     {% if request.user.id == user_id %}
         <div class="d-flex justify-content-center mt-3">
             <a href="{% url 'post:post_create' %}" class="btn btn-primary">Create Post</a>
-            <a href="{% url 'post:edite_user' %}" class="btn btn-primary">Edite Profile</a>
         
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+
+                <a href="{% url 'account:edite_user' %}" class="btn btn-primary">Edite Profile</a>
         </div>
     
     {% endif %}

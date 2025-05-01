@@ -155,9 +155,27 @@ class EditeUserView(LoginRequiredMixin, View):
     form_class = EditeUserForm
 
     def get(self, request):
-        form = self.form_class()
+
+        form = self.form_class(instance=request.user.profile, initial={
+                               'email': request.user.email})
 
         return render(request, 'account/edite_profile.html', {'form': form})
 
     def post(self, request):
-        pass
+        form = self.form_class(request.POST, instance=request.user.profile)
+
+        if form.is_valid():
+            profile = form.save()
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+
+            user = request.user
+            user.email = email
+
+            if password:
+                user.set_password(password)
+
+            user.save()
+
+            return redirect('account:user_profile', user.id)
+        return redirect(request, 'account/edite_profile.html', {'form': form})
